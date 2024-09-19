@@ -1,5 +1,5 @@
 
-let { Server } = require("./bedrock-websocket-server.js")
+let { Server } = require("./bwssw.js")
 
 
 let server = new Server()
