@@ -155,7 +155,11 @@ class Client {
 		return _test( ...arguments )
 	}
 	
-	async name () {
+	get name () {
+		return this._name
+	}
+	
+	async fetchName () {
 		return this._name = (await this._test())?.victims?.[0] 
 	}
 }
@@ -194,7 +198,7 @@ class Server {
 				this._clients.delete( self )
 			})
 			
-			let name = await client.name()
+			let name = await client.fetchName()
 			
 			this._clients.add( client )
 			this._connectHandler?.( client )
@@ -211,11 +215,11 @@ class Server {
 		return this
 	}
 	
-	client () {
+	async client () {
 		let filteredClients = []
 		
 		this._clients.forEach( client => {
-			if ( client.test(...arguments) )
+			if ( await client.test(...arguments) )
 				filteredClients.push( client )
 		} )
 		
